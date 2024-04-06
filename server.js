@@ -18,11 +18,6 @@ var JwtStrategy = passportJWT.Strategy;
 var jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
 
-// IMPORTANT - this secret should be a long, unguessable string 
-// (ideally stored in a "protected storage" area on the web server).
-// We suggest that you generate a random 50-character string
-// using the following online tool:
-// https://lastpass.com/generatepassword.php
 
 jwtOptions.secretOrKey = process.env.JWT_SECRET;
 
@@ -31,9 +26,6 @@ var strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
     console.log('payload received', jwt_payload);
 
     if (jwt_payload) {
-        // The following will ensure that all routes using 
-        // passport.authenticate have a req.user._id, req.user.userName, req.user.fullName & req.user.role values 
-        // that matches the request payload data
         next(null, { _id: jwt_payload._id, 
             userName: jwt_payload.userName, 
             }); 
